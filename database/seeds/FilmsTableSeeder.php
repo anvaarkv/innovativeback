@@ -17,7 +17,7 @@ class FilmsTableSeeder extends Seeder
             array(
                 'user_id' => 1,
                 'name' => 'Inception',
-                'description' => '',
+                'description' => 'a',
                 'release_date' => Carbon::today(),
                 'rating' => 3,
                 'ticket_price' => 200,
@@ -29,7 +29,7 @@ class FilmsTableSeeder extends Seeder
             array(
                 'user_id' => 1,
                 'name' => 'Titanic',
-                'description' => '',
+                'description' => 'b',
                 'release_date' => Carbon::today(),
                 'rating' => 4,
                 'ticket_price' => 200,
@@ -41,7 +41,7 @@ class FilmsTableSeeder extends Seeder
             array(
                 'user_id' => 1,
                 'name' => 'Avengers',
-                'description' => '',
+                'description' => 'c',
                 'release_date' => Carbon::today(),
                 'rating' => 5,
                 'ticket_price' => 200,

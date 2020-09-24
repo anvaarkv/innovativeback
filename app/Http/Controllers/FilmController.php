@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FilmResource;
+use App\Models\DocumentTemplate;
 use App\Models\Film;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class FilmController extends Controller
@@ -17,7 +19,7 @@ class FilmController extends Controller
      */
     public function index()
     {
-        return FilmResource::collection(Film::paginate(25));
+        return FilmResource::collection(Film::paginate(1));
     }
 
     /**
@@ -28,6 +30,7 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
             'description' => 'required',
@@ -35,7 +38,8 @@ class FilmController extends Controller
             'rating' => 'required|integer|between:1,5',
             'ticket_price' => 'required',
             'photo' => 'required',
-            'country_id' => 'required'
+            'country' => 'required',
+            'genre' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -45,6 +49,24 @@ class FilmController extends Controller
             ], 422);
         }
 
+
+        if($request->has('genre')){
+            $genre = json_decode($request->input('genre'),true);
+            $genres = array_map(function($tag) {
+                return array(
+                    'title' => $tag['value']
+                );
+            }, $genre);
+        }
+
+        $imgName = 'noimage.png';
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $path = public_path('images/');
+            $folder = File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+            $imgName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($path . '/', $imgName);
+        }
         $film = Film::create([
             'user_id' => 1,
             'name' => $request->name,
@@ -52,19 +74,10 @@ class FilmController extends Controller
             'release_date' => $request->release_date,
             'rating' => $request->rating,
             'ticket_price' => $request->ticket_price,
-            'country_id' => $request->country_id,
-            'photo' => 'noimage.png'
+            'country_id' => $request->country,
+            'photo' => $imgName
         ]);
-        if ($film && $request->has('genre')) {
-            $genre = explode(',', $request->genre);
-            for ($i = 0; $i < count($genre); $i++) {
-                $genres = Genre::create([
-                    'film_id' => $film->id,
-                    'title' => $genre[$i],
-                ]);
-            }
-        }
-
+        $film->genre()->createMany($genres);
         return new FilmResource($film);
     }
 
@@ -76,7 +89,8 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        //
+//        dd($id);
+        return new FilmResource(Film::FindOrFail($id));
     }
 
     /**
@@ -99,6 +113,9 @@ class FilmController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $film = Film::findOrFail($id);
+        $film->delete();
+
+        return new FilmResource($film);
     }
 }

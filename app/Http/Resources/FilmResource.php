@@ -21,6 +21,7 @@ class FilmResource extends JsonResource
             'description' => $this->description,
             'photo' => url('images/'.$this->photo),
             'release_date' => $this->release_date,
+            'ticket_price' => $this->ticket_price,
             'rating' => $this->rating,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Film extends Model
 {
-
+    use SoftDeletes;
     public $table = 'films';
     protected $fillable = [];
     protected $guarded = [];

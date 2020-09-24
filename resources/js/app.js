@@ -27,6 +27,20 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import FilmsComponent from './components/FilmsComponent.vue';
+import addFilm from './components/addFilm.vue';
+import singleFilm from './components/SingleFilmComponent'
+import VueResource from 'vue-resource';
+import BootstrapVue from 'bootstrap-vue'
+Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.use(VueResource);
+Vue.use(BootstrapVue);
+Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr("content");
 const app = new Vue({
     el: '#app',
+    components: {
+        'films-component':  FilmsComponent,
+        'add-film': addFilm,
+        'single-film' : singleFilm
+    }
 });
