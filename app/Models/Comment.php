@@ -12,10 +12,6 @@ class Comment extends Model
     protected $guarded = [];
 
     public  function film(){
-        $this->belongsTo(Film::class);
-    }
-
-    public function user(){
-        $this->belongsTo(User::class);
+       return $this->belongsTo(Film::class)->withDefault();
     }
 }

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FilmResource;
+use App\Models\Comment;
+use App\Models\Film;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -13,7 +18,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        return FilmResource::collection(Film::paginate(5));
     }
 
     /**
@@ -24,7 +29,24 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(request()->all(), [
+            'film' => 'required',
+            'name' => 'required',
+            'comment' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "error" => 'validation_error',
+                "message" => $validator->errors(),
+            ], 422);
+        }
+        $comment = Comment::create([
+            'film_id' => $request->film,
+            'name' => $request->name,
+            'comment' => $request->comment,
+        ]);
+        return new FilmResource($comment);
     }
 
     /**

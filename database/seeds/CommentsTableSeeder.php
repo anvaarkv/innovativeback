@@ -14,10 +14,10 @@ class CommentsTableSeeder extends Seeder
      */
     public function run()
     {
-        $comments = Film::all()->map(function (Film $film) {
+        $comments = Film::with('user')->get()->map(function (Film $film) {
             return [
                 'film_id' => $film->id,
-                'user_id' => 1,
+                'name' => $film->user->name,
                 'comment' => 'comment is here',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

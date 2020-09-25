@@ -89,7 +89,6 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-//        dd($id);
         return new FilmResource(Film::FindOrFail($id));
     }
 

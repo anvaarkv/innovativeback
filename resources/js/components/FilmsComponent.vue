@@ -103,7 +103,7 @@
                                 <td>{{ film.description }}</td>
                                 <td>{{ film.release_date }}</td>
                                 <td>{{ film.ticket_price }}</td>
-                                <td><a :href="'/films/' + film.id"  v-bind:title="film.title">View</a></td>
+                                <td><a :href="'/films/' + film.id+ '/' + film.name"  v-bind:title="film.title">View</a></td>
                                 <!--                                <td><a href="#" v-on:click="editFilm(film.id)" data-target="#exampleModal"  data-toggle="modal" v-bind:title="film.title">Edit</a></td>-->
 <!--                                <td><a href="#" v-bind:href="@{route('/')}" data-target="#exampleModal"  data-toggle="modal" v-bind:title="film.title" v-bind:id="id">View</a></td>-->
                                 <td><a href="#" data-target="#exampleModal2" v-on:click="deleteId(film.id)"  data-toggle="modal" v-bind:id="id"  >Delete</a></td>
@@ -144,6 +144,7 @@ export default {
             showmodal: false,
             pagenumber: 1,
             actionmsg: '',
+            slug: '',
         }
     },
     methods: {
@@ -218,6 +219,9 @@ export default {
     },
     mounted() {
         this.filmLists();
+    },
+    computed : {
+
     }
 }
 </script>
