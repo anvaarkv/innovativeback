@@ -15,7 +15,7 @@ Now create database and setup in .env file then run
 
 - php artisan config:cache
 - php artisan migrate
-- php db:seed
+- php artisan db:seed
 
 Yeah ! Your Application has been setup. Now run following commands to run this application.
 
