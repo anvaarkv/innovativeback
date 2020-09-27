@@ -32,12 +32,11 @@ import addFilm from './components/addFilm.vue';
 import singleFilm from './components/SingleFilmComponent'
 import VueResource from 'vue-resource';
 import BootstrapVue from 'bootstrap-vue'
-import moment from 'moment'
-
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
-Vue.prototype.moment = moment
+
+
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr("content");
 const app = new Vue({
     el: '#app',
